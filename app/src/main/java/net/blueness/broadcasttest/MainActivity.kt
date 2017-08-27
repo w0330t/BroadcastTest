@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener{
             val intent = Intent("net.blueness.broadcasttest.MY_BROADCAST")
-            sendBroadcast(intent)
+            sendOrderedBroadcast(intent, null)
         }
     }
 
