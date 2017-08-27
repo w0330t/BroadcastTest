@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         intentFilter?.addAction("android.net.conn.CONNECTIVITY_CHANGE")
         networkChangeReceiver = NetworkChangeReceiver()
         registerReceiver(networkChangeReceiver, intentFilter)
+
+        button.setOnClickListener{
+            val intent = Intent("net.blueness.broadcasttest.MY_BROADCAST")
+            sendBroadcast(intent)
+        }
     }
 
     override fun onDestroy() {
@@ -29,9 +35,10 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(networkChangeReceiver)
     }
 
-    internal inner class NetworkChangeReceiver: BroadcastReceiver() {
+    inner class NetworkChangeReceiver: BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
+
             val connectionManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = connectionManager.activeNetworkInfo
             if (networkInfo != null && networkInfo.isAvailable) {
@@ -44,5 +51,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-
